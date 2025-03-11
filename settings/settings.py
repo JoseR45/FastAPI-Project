@@ -5,13 +5,13 @@ from user.routes.routes import router as users_router
 
 
 MIDDLEWARES = [
-    (RequestTimeMiddleware, {}),
     (CORSMiddleware, {  
         "allow_origins": ["*"],  
         "allow_credentials": True,
         "allow_methods": ["*"],
         "allow_headers": ["*"],
     }),
+    (RequestTimeMiddleware, {}),
 ]
 
 ROUTES = [

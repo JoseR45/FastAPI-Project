@@ -1,7 +1,9 @@
 from fastapi import FastAPI
 from settings.settings import MIDDLEWARES, ROUTES
 
+
 app = FastAPI()
+
 
 for middleware, options in MIDDLEWARES:
         app.add_middleware(middleware, **options)
@@ -9,8 +11,5 @@ for middleware, options in MIDDLEWARES:
 for router, prefix in ROUTES:
         app.include_router(router, prefix=prefix)
 
-@app.get("/")
-def read_root():
-    return {"message": "Prueba"}
 
     
