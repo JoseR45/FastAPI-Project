@@ -20,7 +20,6 @@ from user.models.user_model import User
 from post.models.post_relations_model import Post, Comment, Tag
 from settings.database import Base
 # target_metadata = mymodel.Base.metadata
-print(Base.metadata.tables.keys())
 target_metadata = Base.metadata
 
 # other values from the config, defined by the needs of env.py,
