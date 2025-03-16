@@ -2,7 +2,7 @@ from starlette.middleware.cors import CORSMiddleware
 from commons.middlewares.request_middleware import RequestTimeMiddleware, AdminAccessMiddleware
 from user.routes.routes import router as users_router
 from post.routes.post import router as post_router
-from admin.routes.tags import router as admin_tags_router
+from admin.routes.admin import router as admin_tags_router
 from post.routes.Comment import router as comment_router
 
 

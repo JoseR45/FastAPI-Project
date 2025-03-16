@@ -1,4 +1,5 @@
 fastapi
+pyjwt
 uvicorn
 sqlalchemy 
 alembic
@@ -8,4 +9,5 @@ asyncpg
 dotenv
 python-multipart
 aiobcrypt
-
+sqlalchemy[asyncio]
+asyncio

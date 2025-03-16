@@ -5,7 +5,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from settings.database import get_db
 from sqlalchemy.future import select
 from settings.current_user_security import get_current_user
-from user.models.user_model import User
+from user.models.user_model import User, UserListResponse
+from post.schemas.post import PostListResponse
 from typing import List
 
 
@@ -161,3 +162,50 @@ async def delete_user(
 
     await user.delete(db)
     
+
+
+@router.get("/deleteusers", response_model=UserListResponse)
+async def delete_user_list(
+    page: int = None, 
+    size: int = None, 
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    query = select(User).filter(
+        User.is_deleted == True
+    )
+    
+    result = await db.execute(query)
+    users = result.scalars().all()  
+    if page is not None and size is not None:
+        users = users[page * size: page * size + size]
+        
+    return {
+        "page": page,
+        "size": size,
+        "users":users,
+        }
+    
+
+
+@router.get("/deletedpost", response_model=PostListResponse)
+async def deleted_post_list(
+    page: int = None, 
+    size: int = None, 
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user),
+):
+    query = select(Post).filter(
+        Post.is_deleted == True
+    )
+    
+    result = await db.execute(query)
+    posts = result.scalars().all()  
+    if page is not None and size is not None:
+        posts = posts[page * size: page * size + size]
+        
+    return {
+        "page": page,
+        "size": size,
+        "posts":posts,
+        }

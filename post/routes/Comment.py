@@ -70,6 +70,34 @@ async def get_comments(
         }
 
 
+
+@router.get("/post/{post_id}", response_model=CommentListResponse)
+async def get_comments(
+    post_id: int,
+    page: int = None, 
+    size: int = None, 
+    db: AsyncSession = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+    ):
+    
+    query = select(Comment).filter(
+        Comment.post_id == post_id,
+        Comment.is_deleted == False,
+    )
+  
+    result = await db.execute(query)
+    comments = result.scalars().all() 
+    if page is not None and size is not None:
+        comments = comments[page * size: page * size + size]
+        
+    return {
+        "page": page,
+        "size": size,
+        "comments": comments
+        }
+
+
+
 @router.delete("/{comment_id}", status_code=204)
 async def delete_Comment(
     comment_id: int,
